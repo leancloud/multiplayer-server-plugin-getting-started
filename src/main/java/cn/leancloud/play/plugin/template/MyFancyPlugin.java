@@ -1,14 +1,14 @@
 package cn.leancloud.play.plugin.template;
 
-import cn.leancloud.play.plugin.AbstractGamePlugin;
+import cn.leancloud.play.plugin.AbstractPlugin;
 import cn.leancloud.play.plugin.BoundRoom;
 import cn.leancloud.play.plugin.context.*;
 import cn.leancloud.play.plugin.request.*;
 
 import java.util.Map;
 
-public class MyFancyGamePlugin extends AbstractGamePlugin {
-    public MyFancyGamePlugin(BoundRoom room, Map<String, Object> initConfigs) {
+public class MyFancyPlugin extends AbstractPlugin {
+    public MyFancyPlugin(BoundRoom room, Map<String, Object> initConfigs) {
         super(room);
         // do some constructor stuff
     }

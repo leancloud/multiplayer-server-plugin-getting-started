@@ -1,6 +1,6 @@
 package cn.leancloud.play.plugin.template;
 
-import cn.leancloud.play.plugin.AbstractGamePlugin;
+import cn.leancloud.play.plugin.AbstractPlugin;
 import cn.leancloud.play.plugin.Actor;
 import cn.leancloud.play.plugin.BoundRoom;
 import cn.leancloud.play.plugin.context.BeforeSendEventContext;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MasterIsWatchingYouPlugin extends AbstractGamePlugin {
+public class MasterIsWatchingYouPlugin extends AbstractPlugin {
     public MasterIsWatchingYouPlugin(BoundRoom room) {
         super(room);
     }
