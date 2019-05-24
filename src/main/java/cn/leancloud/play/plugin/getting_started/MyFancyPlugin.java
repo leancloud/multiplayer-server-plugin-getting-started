@@ -1,4 +1,4 @@
-package cn.leancloud.play.plugin.template;
+package cn.leancloud.play.plugin.getting_started;
 
 import cn.leancloud.play.plugin.AbstractPlugin;
 import cn.leancloud.play.plugin.BoundRoom;
