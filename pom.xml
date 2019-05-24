@@ -4,20 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>cn.leancloud.play</groupId>
-        <artifactId>game-plugin-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-
-    <artifactId>game-plugin-template</artifactId>
+    <groupId>cn.leancloud.play</groupId>
+    <artifactId>multiplayer-server-plugin-getting-started</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>game-plugin-template ${project.version}</name>
 
     <dependencies>
         <dependency>
             <groupId>cn.leancloud.play</groupId>
             <artifactId>game-plugin</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
