@@ -1,5 +1,6 @@
 package cn.leancloud.play.plugin.getting_started;
 
+import cn.leancloud.play.collection.PlayObject;
 import cn.leancloud.play.plugin.AbstractPlugin;
 import cn.leancloud.play.plugin.Actor;
 import cn.leancloud.play.plugin.BoundRoom;
@@ -7,7 +8,6 @@ import cn.leancloud.play.plugin.context.BeforeSendEventContext;
 import cn.leancloud.play.plugin.request.ReceiverGroup;
 import cn.leancloud.play.plugin.request.SendEventOptions;
 import cn.leancloud.play.plugin.request.SendEventRequest;
-import cn.leancloud.play.collection.GameMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public class MasterIsWatchingYouPlugin extends AbstractPlugin {
             room.sendEventToReceiverGroup(ReceiverGroup.ALL,
                     master.getActorId(),
                     (byte)0,
-                    new GameMap().fluentPut("data", msg),
+                    new PlayObject().fluentPut("data", msg),
                     SendEventOptions.emptyOption);
         }
     }
