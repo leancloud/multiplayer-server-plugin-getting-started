@@ -19,7 +19,7 @@ public class MyFancyPluginFactory implements PluginFactory {
             }
         }
 
-        Log.error("unknown plugin name {}", pluginName);
-        return null;
+        Log.info("unknown plugin name {}, use DoNothingPlugin instead", pluginName);
+        return new DoNothingPlugin(room);
     }
 }
