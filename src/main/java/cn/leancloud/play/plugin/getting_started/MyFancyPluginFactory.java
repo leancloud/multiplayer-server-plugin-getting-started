@@ -1,6 +1,7 @@
 package cn.leancloud.play.plugin.getting_started;
 
 import cn.leancloud.play.plugin.BoundRoom;
+import cn.leancloud.play.plugin.DoNothingPlugin;
 import cn.leancloud.play.plugin.Plugin;
 import cn.leancloud.play.plugin.PluginFactory;
 import cn.leancloud.play.utils.Log;
