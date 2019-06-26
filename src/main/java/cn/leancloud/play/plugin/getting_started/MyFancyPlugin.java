@@ -97,8 +97,8 @@ public class MyFancyPlugin extends AbstractPlugin {
     }
 
     @Override
-    public void onCloseRoom(CloseRoomContext ctx) {
-        CloseRoomRequest req = ctx.getRequest();
+    public void onDestroyRoom(DestroyRoomContext ctx) {
+        DestroyRoomRequest req = ctx.getRequest();
 
         // do something with req
 
