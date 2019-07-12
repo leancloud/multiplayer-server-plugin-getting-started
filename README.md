@@ -30,3 +30,8 @@ server.log | game 服务运行日志
 stdout.log | 进程的 STDOUT 输出
 plugin.log | 用户实现的 plugin 输出的日志
 event.log | 事件日志，如用户登录登出等
+
+## 常见错误处理
+
+1. game-standalone 启动后 STDOUT 输出 ”java.net.BindException: Address already in use“
+该错误为当前系统运行了多个 game-standalone 服务，请通过查找并杀死系统内已经存在的 game-standalone 进程，再尝试重新启动 game-standalone 服务。
