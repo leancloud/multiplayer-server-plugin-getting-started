@@ -15,7 +15,7 @@ def get_lobby_route(feature=None, insecure=False):
     if insecure or config.FORCE_USE_INSECURE_ADDR:
         payload['insecure'] = True
 
-    auth_url = "%s/router" % config.ROUTER_URL
+    auth_url = "%s/route" % config.ROUTER_URL
     LOG.info(colorama.Fore.YELLOW + "request game router at %s" % auth_url)
 
     if not auth_url.startswith("http"):
