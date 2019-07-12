@@ -2,6 +2,8 @@
 
 ## 测试服务器使用说明
 
+测试服务器指在本地启动的游戏服务器，用于测试游戏的 Plugin 功能。为了能正常启动，建议至少准备 512M 内存。
+
 ### 启动
 
 1. [在 Releases](https://github.com/leancloud/multiplayer-server-plugin-getting-started/releases) 内找最新一次 Release 记录打开 Assets 下载 game-standalone.tar.gz 
