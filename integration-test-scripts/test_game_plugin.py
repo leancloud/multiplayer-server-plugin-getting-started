@@ -28,8 +28,7 @@ def test_game_plugin():
         'masterActorId': 1,
         "members": [{
             "pid": client_a,
-            "actorId": 1,
-            "attr": {}
+            "actorId": 1
         }],
         "open": True
     }])

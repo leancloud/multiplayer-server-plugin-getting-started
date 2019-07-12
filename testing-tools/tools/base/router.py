@@ -1,4 +1,5 @@
 import requests
+import colorama
 from requests.adapters import HTTPAdapter
 from tools.base import config
 from tools.base import matcher
@@ -15,15 +16,16 @@ def get_lobby_route(feature=None, insecure=False):
         payload['insecure'] = True
 
     auth_url = "%s/router" % config.ROUTER_URL
-    LOG.info("request game router at %s" % auth_url)
+    LOG.info(colorama.Fore.YELLOW + "request game router at %s" % auth_url)
 
     if not auth_url.startswith("http"):
         auth_url = "https://" + auth_url
 
     with requests.Session() as session:
         session.mount(auth_url, HTTPAdapter(max_retries=3))
-        resp = session.get(auth_url, params=payload, timeout=1)
-        LOG.info("get router link got response %s" % resp.json())
+        resp = session.get(auth_url, params=payload, timeout=5)
+        LOG.info(colorama.Fore.YELLOW +
+                 "get router link got response %s" % resp.json())
         return resp.json()
 
 

@@ -1,15 +1,13 @@
-import time
 import sys
+import time
 from functools import wraps
 
-from tools.base import lobby_shortcuts
-from tools.base import client
-from tools.base import config
+from tools.base import client, config, lobby_shortcuts
 
 
-def open_session(client_id, router_resp_fn):
+def open_session(client_id, router_resp_fn, addr_key="addr"):
     router_resp = router_resp_fn()
-    room_addr = router_resp.get('secure_addr')
+    room_addr = router_resp.get(addr_key)
 
     ws_client = client.connect_to_ws_addr(client_id, room_addr)
 
@@ -20,7 +18,7 @@ def open_session(client_id, router_resp_fn):
     return ws_client
 
 
-def create_room(client_id, room_id, player_ttl=None, attr={}, lobby_keys=[], flag=0):
+def create_room(client_id, room_id, player_ttl=0, attr={}, lobby_keys=[], flag=0, expect_members=[], max_members=10, plugin_name=""):
     ws_client = open_session(
         client_id, lambda: lobby_shortcuts.create_room(client_id, room_id=room_id))
     ws_client.send_msg_with_expect_msgs({'cmd': 'conv',
@@ -29,11 +27,15 @@ def create_room(client_id, room_id, player_ttl=None, attr={}, lobby_keys=[], fla
                                          'playerTtl': player_ttl,
                                          'attr': attr,
                                          'lobbyAttrKeys': lobby_keys,
-                                         'flag': flag},
+                                         'flag': flag,
+                                         'expectMembers': expect_members,
+                                         'maxMembers': max_members,
+                                         'pluginName': plugin_name,
+                                         },
                                         [{'cmd': 'conv',
                                           'op': 'started',
                                           'masterActorId': 1,
-                                          "members": [{"pid": client_id, "actorId": 1, "attr": {}}]}])
+                                          "members": [{"pid": client_id, "actorId": 1}]}])
     return ws_client
 
 
@@ -51,13 +53,13 @@ def join_room(client_id, room_id, rejoin=False):
     return ws_client
 
 
-def create_cluster(client_ids, room_id, player_ttl=None, attr={}, flag=0):
+def create_cluster(client_ids, room_id, player_ttl=0, attr={}, flag=0, plugin_name="", lobby_keys=[]):
     creator = None
     ret = []
     for id in client_ids:
         if not ret:
             creator = create_room(
-                id, room_id, player_ttl=player_ttl, attr=attr, flag=flag)
+                id, room_id, player_ttl=player_ttl, attr=attr, flag=flag, plugin_name=plugin_name, lobby_keys=lobby_keys)
             ret.append(creator)
         else:
             ret.append(join_room(id, room_id))

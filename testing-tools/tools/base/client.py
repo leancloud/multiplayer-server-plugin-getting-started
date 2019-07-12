@@ -9,12 +9,14 @@ from tools.base import commands
 from tools.base import matcher
 from tools.base import util
 from tools.base import config
-from tools.base.json_serializer import JsonSerializer
+from tools.base.codecs.protobuf_v1.protobuf_serializer import ClientToServerProtobufSerializer
+from tools.base.codecs.json_serializer import JsonSerializer
 
 from ws4py.client.threadedclient import WebSocketClient
 from ws4py.messaging import BinaryMessage
 from ws4py.websocket import Heartbeat
 
+colorama.init(autoreset=True)
 LOG = util.get_logger('client')
 
 OPENED_CLIENTS = []
@@ -97,10 +99,10 @@ def add_expect_msgs_for_all(clients, expect_msgs):
 
 class Client(WebSocketClient):
     def __init__(self, addr, peer_id, ping_interval_secs,
-                 cmd_manager, codec, protocol="json.1"):
+                 cmd_manager, serializer, protocol="protobuf.1"):
         super(Client, self).__init__(addr, protocols=[protocol])
         self._peer_id = peer_id
-        self._serializer = codec
+        self._serializer = serializer
         self._cmd_manager = cmd_manager
         if ping_interval_secs is None:
             self._ping_interval_secs = 10
@@ -140,7 +142,12 @@ class Client(WebSocketClient):
 
         msg = self._cmd_manager.complate_msg(cmd_msg_args)
 
-        LOG.info("%s > %s" % (self._peer_id, json.dumps(msg)))
+        try:
+            LOG.info(colorama.Fore.CYAN + "%s > %s" %
+                     (self._peer_id, json.dumps(msg)))
+        except:
+            LOG.info(colorama.Fore.RED + "not json: %s > %s" %
+                     (self._peer_id, msg))
 
         msg = self._serializer.serialize(msg)
         if not isinstance(msg, str):
@@ -166,8 +173,12 @@ class Client(WebSocketClient):
             message = message.data
         msg = self._serializer.deserialize(message)
 
-        LOG.info(colorama.Fore.CYAN + "%s < %s" %
-                 (self._peer_id, json.dumps(msg)))
+        try:
+            LOG.info(colorama.Fore.CYAN + "%s < %s" %
+                     (self._peer_id, json.dumps(msg)))
+        except Exception:
+            LOG.info(colorama.Fore.RED + "not json: %s < %s" %
+                     (self._peer_id, msg))
 
         for future in self._future_list:
             if future.match(msg):
@@ -187,7 +198,7 @@ class Client(WebSocketClient):
         self._heartbeat_job.stop()
         OPENED_CLIENTS.remove(self)
         LOG.info(colorama.Fore.YELLOW +
-                 "WebSocket closed: %s %s" % (code, reason))
+                 "%s WebSocket closed: %s %s" % (self._peer_id, code, reason))
 
 
 class ClientBuilder:
@@ -196,7 +207,7 @@ class ClientBuilder:
         self._peerid = None
         self._addr = None
         self._ping_interval_secs = None
-        self._protocol = config.DEFAULT_PROTOCOL
+        self._protocol = config.PROTOCOL
 
     def with_appid(self, appid):
         self._appid = appid
@@ -225,12 +236,15 @@ class ClientBuilder:
     def build(self):
         cmd_manager = commands.CommandsManager(
             self._appid, self._peerid)
-        codec = JsonSerializer()
+        if self._protocol == 'protobuf.1':
+            serializer = ClientToServerProtobufSerializer()
+        else:
+            serializer = JsonSerializer()
         return Client(self._addr,
                       self._peerid,
                       self._ping_interval_secs,
                       cmd_manager,
-                      codec,
+                      serializer,
                       protocol=self._protocol)
 
 
@@ -244,7 +258,8 @@ def connect_to_ws_addr(client_id, addr):
         .with_appid(config.APP_ID) \
         .with_peerid(client_id) \
         .build()
-    LOG.info("%s connecting to %s" % (client_id, addr))
+    LOG.info(colorama.Fore.YELLOW + "%s connecting to %s with protocol: %s" %
+             (client_id, addr, config.PROTOCOL))
     ws_client.connect()
     return ws_client
 

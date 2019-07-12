@@ -14,7 +14,7 @@ def get_logger(logger_name):
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
     console.setFormatter(logging.Formatter(
-        '%(asctime)s [%(filename)s:%(lineno)d] %(levelname)s %(message)s'))
+        '%(asctime)s %(levelname)s %(message)s'))
     logger.addHandler(console)
     logging.getLogger('ws4py').addHandler(console)
 

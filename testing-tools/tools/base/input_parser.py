@@ -42,7 +42,8 @@ class Lexer(object):
     def _next_keyword(self):
         self._skip_whitespaces()
 
-        key = self._next_consecutive_literals(lambda x: x.isalpha())
+        key = self._next_consecutive_literals(
+            lambda x: not x.isspace() and x != ':')
         if key and not self._input_str[self._pos - 1].isspace():
             raise RuntimeError(format(
                 "Invalid char '%s' for keyword in input: \"%s\"" % (self._input_str[self._pos - 1], self._input_str)))
@@ -159,6 +160,9 @@ if __name__ == "__main__":
 
     assert_equal({'attr': {'level': 100, 'unique': True, 'cid': None}},
                  Lexer("attr {level 100 unique true  cid    nil}").next_msg())
+
+    assert_equal({'sysAttr': {'expectMembers': {"$set": [1, 2, 3]}}},
+                 Lexer("sysAttr {expectMembers {$set [1 2 3]}}").next_msg())
 
     assert_equal({'attr': {'level': 100, 'unique': True, 'inner': {'gender': 'male', 'cid': None}}},
                  Lexer("attr {level 100 unique true  inner {gender male cid nil}}").next_msg())

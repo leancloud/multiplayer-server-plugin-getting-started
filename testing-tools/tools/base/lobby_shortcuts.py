@@ -7,6 +7,18 @@ from tools.base import client
 LOG = util.get_logger('lobby-shortcuts')
 
 
+def connect_lobby(client_id, insecure=False):
+    lobby_route = router.get_lobby_route(insecure=insecure).get('server')
+
+    ws_client = client.connect_to_ws_addr(client_id, lobby_route)
+    ws_client.send_msg_with_expect_msgs(
+        {'cmd': 'session', 'op': 'open'},
+        [{'cmd': 'session', 'op': 'opened'},
+         {'cmd': 'statistic', 'appStats': matcher.MATCH_ANY}])
+
+    return ws_client
+
+
 def create_room(client_id, room_id=None, insecure=False):
     lobby_route = router.get_lobby_route(insecure=insecure).get('server')
 
@@ -19,8 +31,7 @@ def create_room(client_id, room_id=None, insecure=False):
 
         resp = ws_client.send_msg_with_expect_msg(
             {'cmd': 'conv', 'op': 'start', 'cid': room_id})
-    return {'secure_addr': resp.get('secureAddr'),
-            'addr': resp.get('addr'),
+    return {'addr': resp.get('addr'),
             'error': resp.get('error'),
             'lobby_addr': lobby_route}
 
@@ -38,7 +49,7 @@ def join_room(client_id, room_id, conv_resp=matcher.MATCH_ANY, rejoin=False, ran
 
         if random_join:
             resp = ws_client.send_msg_with_expect_msg(
-                {'cmd': 'conv', 'op': 'add-random', 'cid': room_id,
+                {'cmd': 'conv', 'op': 'add-random',
                     'rejoin': rejoin,
                  'expectAttr': expect_attr}, resp=conv_resp)
         else:
@@ -48,12 +59,11 @@ def join_room(client_id, room_id, conv_resp=matcher.MATCH_ANY, rejoin=False, ran
                  'randomJoin': random_join,
                  'expectAttr': expect_attr}, resp=conv_resp)
 
-    return {'secure_addr': resp.get('secureAddr'),
-            'addr': resp.get('addr'),
+    return {'addr': resp.get('addr'),
             'error': {'reasonCode': resp.get('reasonCode'), 'detail': resp.get('detail')}}
 
 
-def match_room(client_id, room_id, conv_resp=matcher.MATCH_ANY,
+def match_room(client_id, room_id, piggyback_id, conv_resp=matcher.MATCH_ANY,
                expect_attr={}, insecure=False):
     lobby_route = router.get_lobby_route(insecure=insecure).get('server')
 
@@ -65,11 +75,11 @@ def match_room(client_id, room_id, conv_resp=matcher.MATCH_ANY,
              {'cmd': 'statistic', 'appStats': matcher.MATCH_ANY}])
 
         resp = ws_client.send_msg_with_expect_msg(
-            {'cmd': 'conv', 'op': 'match-random', 'cid': room_id,
+            {'cmd': 'conv', 'op': 'match-random',
+             'piggybackPeerId': piggyback_id,
              'expectAttr': expect_attr}, resp=conv_resp)
 
-    return {'secure_addr': resp.get('secureAddr'),
-            'addr': resp.get('addr'),
+    return {'addr': resp.get('addr'),
             'error': {'reasonCode': resp.get('reasonCode'), 'detail': resp.get('detail')}}
 
 

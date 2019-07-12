@@ -37,6 +37,9 @@ def start_process():
     parser.add_argument('--insecure', action="store_true", default=False,
                         dest="is_insecure",
                         help="Connect to game lobby and game server with insecure websocket, default is \"False\"")
+    parser.add_argument('--random-join', action="store_true", default=False,
+                        dest="is_random_join",
+                        help="Connect to game lobby and random join room, default is \"False\"")
 
     args = parser.parse_args()
 
@@ -55,16 +58,18 @@ def start_process():
                 args.peerid, room_id, insecure=args.is_insecure)
             if resp.get('error') and resp.get('error').get('reasonCode'):
                 resp = None
+        elif args.is_random_join:
+            resp = lobby_shortcuts.join_room(
+                args.peerid, room_id, insecure=args.is_insecure, random_join=True)
+            if resp.get('error') and resp.get('error').get('reasonCode'):
+                resp = None
 
         if server_addr is None and resp is None:
             server_addr = router.get_lobby_route(
                 insecure=args.is_insecure).get('server')
 
     if server_addr is None:
-        if args.is_insecure:
-            server_addr = resp.get('addr')
-        else:
-            server_addr = resp.get('secure_addr')
+        server_addr = resp.get('addr')
 
     print(colorama.Fore.YELLOW + "Connecting to %s" % server_addr)
 

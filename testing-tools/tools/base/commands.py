@@ -211,9 +211,8 @@ class SessionOpenCommand(Command):
 
     def complate_msg(self, common_args, cmd_msg):
         add_sign(cmd_msg)
-        cmd_msg['gameVersion'] = config.CLIENT_UA
-        cmd_msg['sdkVersion'] = 'testing_tool/1.0'
-        cmd_msg['protocolVersion'] = 'proto/1.0'
+        cmd_msg['gameVersion'] = config.GAME_VERSION
+        cmd_msg['protocolVersion'] = '0'
         cmd_msg['configBitmap'] = config.CONFIG_BITMAP
         return cmd_msg
 
