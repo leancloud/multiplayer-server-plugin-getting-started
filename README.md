@@ -2,7 +2,7 @@
 
 ## 测试服务器使用说明
 
-测试服务器指在本地启动的游戏服务器，用于测试游戏的 Plugin 功能。为了能正常启动，建议至少准备 512M 内存。
+测试服务器指在本地启动的游戏服务器，用于测试游戏的 Plugin 功能。为了能正常启动，请至少准备 512M 空余内存。
 
 ### 启动
 
@@ -31,8 +31,17 @@ stdout.log | 进程的 STDOUT 输出
 plugin.log | 用户实现的 plugin 输出的日志
 event.log | 事件日志，如用户登录登出等
 
-## 常见错误处理
+### 启动过程常见错误处理
 
 1. game-standalone 启动后 STDOUT 输出 ”java.net.BindException: Address already in use“
 
 该错误为当前系统运行了多个 game-standalone 服务，请通过查找并杀死系统内已经存在的 game-standalone 进程，再尝试重新启动 game-standalone 服务。
+
+## Game Plugin 打包与部署
+
+1. 请先将游戏测试服务器运行起来
+1. 进入 multiplayer-server-plugin-getting-started 工程，执行 `mvn clean package`
+1. 拷贝生成的 `multiplayer-server-plugin-getting-started/target/multiplayer-server-plugin-getting-started-1.1-jar-with-dependencies.jar` 至 `game-standalone/extensions`
+1. 执行 `multiplayer-server-plugin-getting-started/integration-test-scripts/run-tests.sh` 能正常运行完毕表示 Plugin 部署成功，并成功测试了作为示例的 `master_is_watching_you_plugin`
+
+
