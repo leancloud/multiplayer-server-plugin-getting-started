@@ -37,7 +37,7 @@ event.log | 事件日志，如用户登录登出等
 
 该错误为当前系统运行了多个 game-standalone 服务，请通过查找并杀死系统内已经存在的 game-standalone 进程，再尝试重新启动 game-standalone 服务。
 
-## Game Plugin 打包与部署
+## 示例 Game Plugin 打包与部署
 
 1. 请先将游戏测试服务器运行起来
 1. 进入 multiplayer-server-plugin-getting-started 工程，执行 `mvn clean package`
