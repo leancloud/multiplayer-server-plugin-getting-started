@@ -12,6 +12,9 @@
 1. 解压 game-standalone.tar.gz 后进入 game-standalone 目录
 1. 执行 game-standalone 目录内 launch.sh 来启动 game 服务
 1. game 服务启动后，launch.sh 会自动展示 game 服务的 STDOUT 输出，不关心其输出时可以 CTRL + C 退出，game 服务会在后台继续运行
+1. 安装 python3 以及配合使用的 pip
+1. 执行 `pip install -r multiplayer-server-plugin-getting-started/testing-tools/requirements.txt` 安装测试依赖
+1. 执行 `multiplayer-server-plugin-getting-started/integration-test-scripts/run-tests.sh` 能正常运行完毕表示 Plugin 部署成功，并成功测试了作为示例的 `master_is_watching_you_plugin`
 
 ### 关闭
 
@@ -41,11 +44,12 @@ event.log | 事件日志，如用户登录登出等
 
 ## 示例 Game Plugin 打包与部署
 
-1. 请先将游戏测试服务器运行起来
-1. 进入 multiplayer-server-plugin-getting-started 工程，执行 `mvn clean package`
-1. 拷贝生成的 `multiplayer-server-plugin-getting-started/target/multiplayer-server-plugin-getting-started-1.1-jar-with-dependencies.jar` 至 `game-standalone/extensions`
-1. 安装 python3 以及配合使用的 pip
-1. 执行 `pip install -r multiplayer-server-plugin-getting-started/testing-tools/requirements.txt` 安装测试依赖
-1. 执行 `multiplayer-server-plugin-getting-started/integration-test-scripts/run-tests.sh` 能正常运行完毕表示 Plugin 部署成功，并成功测试了作为示例的 `master_is_watching_you_plugin`
+测试游戏服务器已经将最新版本的 multiplayer-server-plugin-getting-started 工程打包，测试游戏服务器启动后会自动加载 multiplayer-server-plugin-getting-started 实现的 Plugin。
 
+在对 multiplayer-server-plugin-getting-started 工程做修改后，想打包新的 Plugin 至测试服务器方法如下：
+
+1. 请先将游戏测试服务器运行起来，测试服务器打包时已经将
+1. 进入修改后的 Plugin 工程，以 multiplayer-server-plugin-getting-started 为例就是进入 multiplayer-server-plugin-getting-started 目录下，执行 `mvn clean package`
+1. 拷贝生成的 `multiplayer-server-plugin-getting-started/target/multiplayer-server-plugin-getting-started-1.1-jar-with-dependencies.jar` 至 `game-standalone/extensions`
+1. 等待几秒后游戏测试服务器会自动加载新的 Plugin
 
