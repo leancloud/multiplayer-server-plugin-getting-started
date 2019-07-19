@@ -48,8 +48,8 @@ event.log | 事件日志，如用户登录登出等
 
 在对 multiplayer-server-plugin-getting-started 工程做修改后，想打包新的 Plugin 至测试服务器方法如下：
 
-1. 请先将游戏测试服务器运行起来，测试服务器打包时已经将
+1. 请先将游戏测试服务器运行起来
 1. 进入修改后的 Plugin 工程，以 multiplayer-server-plugin-getting-started 为例就是进入 multiplayer-server-plugin-getting-started 目录下，执行 `mvn clean package`
-1. 拷贝生成的 `multiplayer-server-plugin-getting-started/target/multiplayer-server-plugin-getting-started-1.1-jar-with-dependencies.jar` 至 `game-standalone/extensions`
+1. 拷贝生成的 `multiplayer-server-plugin-getting-started/target/multiplayer-server-plugin-getting-started-xxx-jar-with-dependencies.jar` 至 `game-standalone/extensions`
 1. 等待几秒后游戏测试服务器会自动加载新的 Plugin
 
