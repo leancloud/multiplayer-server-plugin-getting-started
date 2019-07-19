@@ -4,7 +4,7 @@
 
 测试服务器指在本地启动的游戏服务器，用于测试游戏的 Plugin 功能，可以用任意 APP ID 登录，但整个服务最多只能同时登录 20 个客户端。
 
-为了能正常启动，请至少准备 512M 空余内存。
+为了能正常启动，请至少准备 512M 空余内存。需要提前安装 jdk8 以上版本 jdk。
 
 ### 启动
 
@@ -44,6 +44,8 @@ event.log | 事件日志，如用户登录登出等
 1. 请先将游戏测试服务器运行起来
 1. 进入 multiplayer-server-plugin-getting-started 工程，执行 `mvn clean package`
 1. 拷贝生成的 `multiplayer-server-plugin-getting-started/target/multiplayer-server-plugin-getting-started-1.1-jar-with-dependencies.jar` 至 `game-standalone/extensions`
+1. 安装 python3 以及配合使用的 pip
+1. 执行 `pip install -r multiplayer-server-plugin-getting-started/testing-tools/requirements.txt` 安装测试依赖
 1. 执行 `multiplayer-server-plugin-getting-started/integration-test-scripts/run-tests.sh` 能正常运行完毕表示 Plugin 部署成功，并成功测试了作为示例的 `master_is_watching_you_plugin`
 
 
