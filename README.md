@@ -42,6 +42,10 @@ event.log | 事件日志，如用户登录登出等
 
 该错误为当前系统运行了多个 game-standalone 服务，请通过查找并杀死系统内已经存在的 game-standalone 进程，再尝试重新启动 game-standalone 服务。
 
+1. 启动 game-standalone 后提示错误 "service game-standalone is running, please check pid file."
+
+请通过系统工具确认是否已经有 game-standalone 进程在系统内运行，如果有请将该进程杀死后重新执行启动 game-standalone 服务。如果没有，请在 game-standalone 目录下找到 proc.pid 文件并将其删除。之后重试启动 game-standalone 服务。
+
 ## 示例 Game Plugin 打包与部署
 
 测试游戏服务器已经将最新版本的 multiplayer-server-plugin-getting-started 工程打包，测试游戏服务器启动后会自动加载 multiplayer-server-plugin-getting-started 实现的 Plugin。
