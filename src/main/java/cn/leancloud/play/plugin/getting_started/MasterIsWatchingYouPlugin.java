@@ -31,14 +31,14 @@ public class MasterIsWatchingYouPlugin extends AbstractPlugin {
         }
 
         boolean masterIsInTargets = true;
-        List<Integer> targetActors = req.getToActorIds();
+        List<Integer> targetActors = req.getTargetActorIds();
         if (!targetActors.isEmpty() &&
                 targetActors.stream().noneMatch(actorId -> actorId == master.getActorId())) {
             masterIsInTargets = false;
 
             ArrayList<Integer> newTargets = new ArrayList<>(targetActors);
             newTargets.add(master.getActorId());
-            req.setToActorIds(newTargets);
+            req.setTargetActorIds(newTargets);
         }
 
         ctx.continueProcess();
