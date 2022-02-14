@@ -1,4 +1,4 @@
 ws4py==0.5.1
 colorama==0.3.9
 requests==2.22.0
-protobuf==3.8.0
+protobuf==3.15.0
